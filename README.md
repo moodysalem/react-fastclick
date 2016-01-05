@@ -6,8 +6,13 @@ its children if it detects a 'tap'.
     npm install --save react-fastclick-alt
 
 # Component Usage
-Simply wrap your component in an instance of this component, and it should respond to short taps with immediate click
+Wrap your component in an instance of this component, and it should respond to short taps with immediate click
 events.
+
+    var React = require('react');
+    var FastClick = require('react-fastclick-alt');
+    var ReactDOM = require('react-dom');
+    ReactDOM.render(FastClick({}, MyApp()), document.getElementById('app'));
 
 ## Properties
 There are two optional props to this component.
