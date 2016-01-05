@@ -1,0 +1,41 @@
+{
+  "name": "react-fastclick-alt",
+  "version": "0.1.0",
+  "description": "A react component that triggers click events for taps",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha test.js",
+    "prebuild": "npm test",
+    "build:dev": "webpack",
+    "build:prd": "ENVIRONMENT=PRODUCTION webpack",
+    "build": "npm run build:dev && npm run build:prd"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/moodysalem/react-fastclick.git"
+  },
+  "keywords": [
+    "react",
+    "ajax",
+    "backbone",
+    "model",
+    "collection",
+    "sync"
+  ],
+  "author": "Moody Salem",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/moodysalem/react-fastclick/issues"
+  },
+  "homepage": "https://github.com/moodysalem/react-fastclick#readme",
+  "dependencies": {
+    "object-assign": "^4.0.1",
+    "react": "^0.14.5"
+  },
+  "devDependencies": {
+    "mocha": "^2.3.4",
+    "react-addons-test-utils": "^0.14.5",
+    "react-dom": "^0.14.5",
+    "webpack": "^1.12.9"
+  }
+}
