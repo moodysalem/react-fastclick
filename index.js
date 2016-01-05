@@ -6,27 +6,33 @@ var assign = require('object-assign');
 var d = React.DOM;
 
 var isFocused = function (el) {
-  return el && el === document.activeElement;
+  return document.activeElement === el;
+};
+
+var isTag = function (el, tagName) {
+  return el && typeof el.tagName === 'string' && el.tagName.toLowerCase() === tagName.toLowerCase();
 };
 
 var isInput = function (el) {
-  return el && el.tagName === 'input';
+  return isTag(el, 'input');
 };
 
 var isFocusedInput = function (el) {
-  return el && isInput(el) && isFocused(el);
+  return isInput(el) && isFocused(el);
 };
 
 var isCheckbox = function (el) {
-  return el && isInput(el) && el.type === 'checkbox';
+  return isInput(el) && el.type && el.type.toLowerCase() === 'checkbox';
 };
 
 var isSelect = function (el) {
-  return el && el.tagName === 'select';
+  return isTag(el, 'select');
 };
+
 var isTextArea = function (el) {
-  return el && el.tagName === 'textarea';
+  return isTag(el, 'textarea');
 };
+
 var isFocusedTextArea = function (el) {
   return isFocused(el) && isTextArea(el);
 };
