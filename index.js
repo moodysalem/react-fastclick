@@ -145,11 +145,11 @@ module.exports = React.createClass({
       return;
     }
 
-    var target = tch.target;
+    var targetEl = tch.target;
 
     // if it's an input where typing is allowed and it's already focused,
     // don't do anything. this is probably an attempt to move the cursor
-    if ((isFocusedInput(target) || isFocusedTextArea(el)) && !isCheckbox(el)) {
+    if ((isFocusedInput(targetEl) || isFocusedTextArea(targetEl)) && !isCheckbox(targetEl)) {
       this.clearTouchData();
       return;
     }
@@ -160,7 +160,7 @@ module.exports = React.createClass({
     e.stopPropagation();
     // clear the data and then trigger the click
     this.clearTouchData(function () {
-      this.triggerClick(target);
+      this.triggerClick(targetEl);
     });
   },
 
