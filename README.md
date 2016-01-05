@@ -13,6 +13,9 @@ events.
     var FastClick = require('react-fastclick-alt');
     var ReactDOM = require('react-dom');
     ReactDOM.render(FastClick({}, MyApp()), document.getElementById('app'));
+    
+Note this is safe to do even if child components include react-fastclick-alt because a touchend event that triggers
+a click will not be propagated.
 
 ## Properties
 There are two optional props to this component.
