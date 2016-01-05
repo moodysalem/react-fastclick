@@ -1,7 +1,7 @@
 {
   "name": "react-fastclick-alt",
   "version": "0.1.3",
-  "description": "A react component that triggers click events for taps",
+  "description": "A react component that triggers click and focus events for taps of children components",
   "main": "index.js",
   "scripts": {
     "test": "mocha test.js",
@@ -16,11 +16,9 @@
   },
   "keywords": [
     "react",
-    "ajax",
-    "backbone",
-    "model",
-    "collection",
-    "sync"
+    "fastclick",
+    "tap",
+    "tappable"
   ],
   "author": "Moody Salem",
   "license": "MIT",
