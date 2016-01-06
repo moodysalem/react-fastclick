@@ -112,11 +112,15 @@ module.exports = React.createClass({
     }
 
     // verify that the touch did not move outside the threshold
-    var dist = Math.sqrt(Math.pow(tch.screenX - this.state.touchX, 2) + Math.pow(tch.screenY - this.state.touchY, 2));
+    var dist = this.calculateTouchDistanceFromOrigin(tch);
     // if it was moved farther than the allowed amount, then we should cancel the touch
     if (dist > this.props.threshold) {
       this.clearTouchData();
     }
+  },
+
+  calculateTouchDistanceFromOrigin: function (touch) {
+    return Math.sqrt(Math.pow(touch.screenX - this.state.touchX, 2) + Math.pow(touch.screenY - this.state.touchY, 2));
   },
 
   handleTouchEnd: function (e) {
@@ -153,6 +157,14 @@ module.exports = React.createClass({
       return;
     }
 
+    // verify that the touch did not move outside the threshold
+    var dist = this.calculateTouchDistanceFromOrigin(tch);
+    // if it was moved farther than the allowed amount, then we should cancel the touch
+    if (dist > this.props.threshold) {
+      this.clearTouchData();
+      return;
+    }
+
     var targetEl = tch.target;
 
     // if it's an input where typing is allowed and it's already focused,
@@ -178,6 +190,7 @@ module.exports = React.createClass({
 
   triggerClick: function (target) {
     while (target && typeof target.click !== "function") {
+
       target = target.parentNode;
     }
 
