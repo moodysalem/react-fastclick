@@ -41,8 +41,10 @@ module.exports = React.createClass({
   displayName: "React FastClick",
 
   propTypes: {
-    // the number of px that the finger can move before the touch should no longer trigger the click event at touch end
+    // The number of px that the finger may move before the gesture is no longer considered a tap
     threshold: React.PropTypes.number,
+    // The amount of time in ms that the finger may be down before the gesture is no longer considered a tap by this
+    // component
     timeThreshold: React.PropTypes.number
   },
 

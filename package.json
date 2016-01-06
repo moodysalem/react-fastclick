@@ -4,7 +4,8 @@
   "description": "A react component that triggers click and focus events for taps of children components",
   "main": "index.js",
   "scripts": {
-    "test": "mocha test.js",
+    "test": "karma start my.conf.js --single-run",
+    "dev": "karma start my.conf.js",
     "prebuild": "npm test",
     "build:dev": "webpack",
     "build:prd": "ENVIRONMENT=PRODUCTION webpack",
@@ -18,7 +19,10 @@
     "react",
     "fastclick",
     "tap",
-    "tappable"
+    "tappable",
+    "touch",
+    "events",
+    "click"
   ],
   "author": "Moody Salem",
   "license": "MIT",
@@ -31,8 +35,12 @@
     "react": "^0.14.5"
   },
   "devDependencies": {
+    "jquery": "^2.1.4",
+    "karma": "^0.13.19",
+    "karma-chrome-launcher": "^0.2.2",
+    "karma-mocha": "^0.2.1",
+    "karma-webpack": "^1.7.0",
     "mocha": "^2.3.4",
-    "react-addons-test-utils": "^0.14.5",
     "react-dom": "^0.14.5",
     "webpack": "^1.12.9"
   }
