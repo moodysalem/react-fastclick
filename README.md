@@ -1,4 +1,6 @@
 # react-fastclick
+[![Build Status](https://travis-ci.org/moodysalem/react-fastclick.svg)](https://travis-ci.org/moodysalem/react-fastclick)
+
 Wrapper div that implements the FastClick logic in its touch events, triggering appropriate click and focus events on
 its children if it detects a 'tap'.
 
