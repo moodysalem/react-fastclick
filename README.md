@@ -1,5 +1,6 @@
 # react-fastclick
 [![Build Status](https://travis-ci.org/moodysalem/react-fastclick.svg)](https://travis-ci.org/moodysalem/react-fastclick)
+[![npm version](https://img.shields.io/npm/v/react-fastclick-alt.svg)](https://www.npmjs.com/package/react-fastclick-alt)
 
 Wrapper div that implements the FastClick logic in its touch events, triggering appropriate click and focus events on
 its children if it detects a 'tap'.
