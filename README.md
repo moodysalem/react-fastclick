@@ -5,6 +5,9 @@
 Wrapper div that implements the FastClick logic in its touch events, triggering appropriate click and focus events on
 its children if it detects a 'tap'.
 
+# Demo
+[Live Demo](http://moodysalem.github.io/react-fastclick-alt/)
+
 # Install
     npm install --save react-fastclick-alt
 
