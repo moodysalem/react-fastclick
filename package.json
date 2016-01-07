@@ -1,6 +1,6 @@
 {
   "name": "react-fastclick-alt",
-  "version": "0.1.7",
+  "version": "1.0.0",
   "description": "A react component that triggers click and focus events for taps of children components",
   "main": "index.js",
   "scripts": {
