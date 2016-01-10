@@ -31,7 +31,9 @@
   },
   "homepage": "https://github.com/moodysalem/react-fastclick#readme",
   "dependencies": {
-    "object-assign": "^4.0.1",
+    "object-assign": "^4.0.1"
+  },
+  "peerDepenncies": {
     "react": "^0.14.5"
   },
   "devDependencies": {
