@@ -1,6 +1,4 @@
-# react-fastclick
-[![Build Status](https://travis-ci.org/moodysalem/react-fastclick.svg)](https://travis-ci.org/moodysalem/react-fastclick)
-[![npm version](https://img.shields.io/npm/v/react-fastclick-alt.svg)](https://www.npmjs.com/package/react-fastclick-alt)
+# [![Build Status](https://travis-ci.org/moodysalem/react-fastclick.svg)](https://travis-ci.org/moodysalem/react-fastclick) [![npm version](https://img.shields.io/npm/v/react-fastclick-alt.svg)](https://www.npmjs.com/package/react-fastclick-alt) react-fastclick
 
 Wrapper div that implements the FastClick logic in its touch events, triggering appropriate click and focus events on
 its children if it detects a 'tap'.
@@ -19,7 +17,7 @@ events.
     var React = require('react');
     var FastClick = require('react-fastclick-alt');
     var ReactDOM = require('react-dom');
-    ReactDOM.render(<FastClick><MyApp></FastClick>, document.getElementById('app'));
+    ReactDOM.render(<FastClick><MyApp/></FastClick>, document.getElementById('app'));
     
 Note this is safe to do even if child components include react-fastclick-alt because a touchend event that triggers
 a click will not be propagated.
