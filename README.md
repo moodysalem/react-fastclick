@@ -3,6 +3,9 @@
 Wrapper div that implements the FastClick logic in its touch events, triggering appropriate click and focus events on
 its children if it detects a 'tap'.
 
+## Deprecation
+This isn't needed now that iOS and Android have both eliminated the click delay in their native browsers for pages that can't zoom
+
 # Demo
 [Live Demo](http://moodysalem.github.io/react-fastclick/)
 
