@@ -3,6 +3,9 @@
   "version": "1.1.0",
   "description": "A react component that triggers click and focus events for taps of children components",
   "main": "dist/react-fastclick-alt.js",
+  "files": [
+    "dist/react-fastclick-alt.js"
+  ],
   "scripts": {
     "pretest": "npm run build",
     "test": "karma start my.conf.js --single-run",
