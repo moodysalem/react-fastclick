@@ -6,9 +6,6 @@ its children if it detects a 'tap'.
 ## Deprecation
 This isn't needed now that iOS and Android have both eliminated the click delay in their native browsers for pages that can't zoom
 
-# Demo
-[Live Demo](http://moodysalem.github.io/react-fastclick/)
-
 # Install
 
     npm install --save-dev react-fastclick-alt
@@ -17,9 +14,9 @@ This isn't needed now that iOS and Android have both eliminated the click delay 
 Wrap your component in an instance of this component, and it should respond to short taps with immediate click
 events.
 
-    var React = require('react');
-    var FastClick = require('react-fastclick-alt');
-    var ReactDOM = require('react-dom');
+    import React, { DOM, PropTypes } from 'react';
+    import FastClick from 'react-fastclick-alt';
+    import ReactDOM from 'react-dom';
     ReactDOM.render(<FastClick><MyApp/></FastClick>, document.getElementById('app'));
     
 Note this is safe to do even if child components include react-fastclick-alt because a touchend event that triggers
