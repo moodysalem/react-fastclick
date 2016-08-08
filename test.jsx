@@ -1,41 +1,37 @@
-'use strict';
+import React, { DOM, PropTypes, Component } from 'react';
+import ReactDOM from 'react-dom';
+import FastClick from './index.jsx';
+import ReactTestUtils from 'react-addons-test-utils';
+import $ from 'jquery';
+import assert from 'assert';
 
-var React = require('react');
-var dom = require('react-dom');
-var fastclick = React.createFactory(require('./index.js'));
-var rtu = require('react-addons-test-utils');
-var sim = rtu.Simulate;
-var $ = require('jquery');
-var assert = require('assert');
-var d = React.DOM;
+const { Simulate } = ReactTestUtils;
 
-var changeOnClick = React.createFactory(React.createClass({
-  getInitialState: function () {
-    return {
-      clicked: false
-    };
-  },
+class ChangeOnClick extends Component {
+  state = {
+    clicked: false
+  };
 
-  setClicked: function () {
-    this.setState({
-      clicked: true
-    });
-  },
-
-  render: function () {
-    return fastclick({}, d.div({
-      id: 'showclicked',
-      onClick: this.setClicked
-    }, (this.state.clicked ? 'clicked' : 'notclicked')));
+  clicked() {
+    this.setState({ clicked: true });
   }
-}));
+
+  render() {
+    const { clicked } = this.state;
+    return (
+      <FastClick>
+        <div id="showclicked" onClick={() => this.clicked()}>{clicked ? 'clicked' : 'notclicked'}</div>
+      </FastClick>
+    );
+  }
+}
 
 describe('react-fastclick-alt', function () {
   var test, showClicked, sc;
   beforeEach(function () {
     $("body").html($("<div>").attr("id", "test"));
     test = $("#test").get(0);
-    dom.render(changeOnClick({}), test);
+    ReactDOM.render(<ChangeOnClick/>, test);
     showClicked = $("#showclicked");
     sc = showClicked.get(0);
   });
@@ -58,8 +54,8 @@ describe('react-fastclick-alt', function () {
     assert(!wasClicked());
 
     var ti = { identifier: 0, screenX: 0, screenY: 0, target: sc };
-    sim.touchStart(sc, { touches: [ ti ], targetTouches: [ ti ] });
-    sim.touchEnd(sc, { touches: [], targetTouches: [], changedTouches: [ ti ] });
+    Simulate.touchStart(sc, { touches: [ ti ], targetTouches: [ ti ] });
+    Simulate.touchEnd(sc, { touches: [], targetTouches: [], changedTouches: [ ti ] });
 
     assert(wasClicked());
   });
@@ -68,9 +64,9 @@ describe('react-fastclick-alt', function () {
     assert(!wasClicked());
 
     var ti = { identifier: 0, screenX: 0, screenY: 0, target: sc };
-    sim.touchStart(sc, { touches: [ ti ], targetTouches: [ ti ] });
+    Simulate.touchStart(sc, { touches: [ ti ], targetTouches: [ ti ] });
     setTimeout(function () {
-      sim.touchEnd(sc, { touches: [], targetTouches: [], changedTouches: [ ti ] });
+      Simulate.touchEnd(sc, { touches: [], targetTouches: [], changedTouches: [ ti ] });
 
       if (!wasClicked()) {
         throw Error('was not clicked');
@@ -84,8 +80,8 @@ describe('react-fastclick-alt', function () {
 
     var ti = { identifier: 0, screenX: 0, screenY: 0, target: sc };
     var te = { identifier: 0, screenX: 10, screenY: 0, target: sc };
-    sim.touchStart(sc, { touches: [ ti ], targetTouches: [ ti ] });
-    sim.touchEnd(sc, { touches: [], targetTouches: [], changedTouches: [ te ] });
+    Simulate.touchStart(sc, { touches: [ ti ], targetTouches: [ ti ] });
+    Simulate.touchEnd(sc, { touches: [], targetTouches: [], changedTouches: [ te ] });
 
     assert(wasClicked());
   });
@@ -95,8 +91,8 @@ describe('react-fastclick-alt', function () {
 
     var ti = { identifier: 0, screenX: 0, screenY: 0, target: sc };
     var te = { identifier: 0, screenX: 12, screenY: 12, target: sc };
-    sim.touchStart(sc, { touches: [ ti ], targetTouches: [ ti ] });
-    sim.touchEnd(sc, { touches: [], targetTouches: [], changedTouches: [ te ] });
+    Simulate.touchStart(sc, { touches: [ ti ], targetTouches: [ ti ] });
+    Simulate.touchEnd(sc, { touches: [], targetTouches: [], changedTouches: [ te ] });
 
     assert(!wasClicked());
   });

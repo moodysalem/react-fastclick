@@ -1,22 +1,26 @@
-var webpack = require('webpack');
-var min = process && process.env && process.env.ENVIRONMENT === 'PRODUCTION';
+const webpack = require('webpack');
 
 module.exports = {
-  entry: "./index.js",
+  entry: "./index.jsx",
 
   output: {
     path: "./dist",
-    filename: "react-fastclick-alt" + (min ? '.min' : '') + '.js',
+    filename: "react-fastclick-alt.js",
     library: "ReactFastClick",
     libraryTarget: "umd"
   },
 
   externals: {
-    'react': { commonjs: 'react', commonjs2: 'react', amd: 'react', root: 'React' },
-    'underscore': { commonjs: 'underscore', commonjs2: 'underscore', amd: 'underscore', root: '_' }
+    'react': { commonjs: 'react', commonjs2: 'react', amd: 'react', root: 'React' }
   },
 
-  plugins: min ? [
-    new webpack.optimize.UglifyJsPlugin()
-  ] : []
+  module: {
+    loaders: [
+      {
+        test: /\.jsx?$/,
+        exclude: /node_modules/,
+        loader: 'babel'
+      }
+    ]
+  }
 };

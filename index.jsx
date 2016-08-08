@@ -1,102 +1,110 @@
-'use strict';
+import React, { DOM, PropTypes, Component } from 'react';
 
-var React = require('react');
-var assign = require('object-assign');
-
-var d = React.DOM;
-
-var isFocused = function (el) {
+const isFocused = (el) => {
   return document.activeElement === el;
 };
 
-var isTag = function (el, tagName) {
+const isTag = (el, tagName) => {
   return el && typeof el.tagName === 'string' && el.tagName.toLowerCase() === tagName.toLowerCase();
 };
 
-var isInput = function (el) {
+const isInput = (el) => {
   return isTag(el, 'input');
 };
 
-var isFocusedInput = function (el) {
+const isFocusedInput = (el) => {
   return isInput(el) && isFocused(el);
 };
 
-var isCheckbox = function (el) {
+const isCheckbox = (el) => {
   return isInput(el) && el.type && el.type.toLowerCase() === 'checkbox';
 };
 
-var isSelect = function (el) {
+const isSelect = (el) => {
   return isTag(el, 'select');
 };
 
-var isTextArea = function (el) {
+const isTextArea = (el) => {
   return isTag(el, 'textarea');
 };
 
-var isFocusedTextArea = function (el) {
+const isFocusedTextArea = (el) => {
   return isFocused(el) && isTextArea(el);
 };
 
-module.exports = React.createClass({
-  displayName: "React FastClick",
-
-  propTypes: {
+export default class ReactFastClick extends Component {
+  static propTypes = {
     // The number of px that the finger may move before the gesture is no longer considered a tap
     threshold: React.PropTypes.number,
     // The amount of time in ms that the finger may be down before the gesture is no longer considered a tap by this
     // component
     timeThreshold: React.PropTypes.number
-  },
+  };
 
-  getDefaultProps: function () {
-    return {
-      threshold: 15,
-      timeThreshold: 125
-    };
-  },
+  static defaultProps = {
+    threshold: 15,
+    timeThreshold: 125
+  };
 
-  shouldComponentUpdate: function (nextProps) {
+  state = {
+    touchId: null,
+    touchX: null,
+    touchY: null,
+    touchTime: null
+  };
+
+  /**
+   * We only re-render if the children have changed-the state changes in this component do not affect the rendered html
+   * @param nextProps
+   * @returns {boolean}
+   */
+  shouldComponentUpdate(nextProps) {
     return this.props.children !== nextProps.children;
-  },
+  }
 
-  getInitialState: function () {
-    return {
+  /**
+   * Clear all touch data
+   * @param callback
+   */
+  clearTouchData(callback) {
+    this.setState({
       touchId: null,
       touchX: null,
       touchY: null,
       touchTime: null
-    };
-  },
+    }, callback);
+  }
 
-  // clear the touch data we've gathered
-  clearTouchData: function (callback) {
-    if (this.isMounted()) {
-      this.setState({
-        touchId: null,
-        touchX: null,
-        touchY: null,
-        touchTime: null
-      }, callback);
-    }
-  },
-
-  handleTouchStart: function (e) {
+  /**
+   * Handle the touch start event
+   * @param e
+   */
+  handleTouchStart(e) {
     // one+ touches means the user isn't trying to tap this element
     if (e.touches.length !== 1 || e.targetTouches.length !== 1) {
       this.clearTouchData();
       return;
     }
-    var tch = e.targetTouches[ 0 ];
+
+    const tch = e.targetTouches[ 0 ];
+
     this.setState({
       touchId: tch.identifier,
       touchX: tch.screenX,
       touchY: tch.screenY,
       touchTime: (new Date()).getTime()
     });
-  },
+  }
 
-  handleTouchMove: function (e) {
-    if (this.state.touchId === null) {
+  /**
+   * Handle the touch move event
+   * @param e
+   */
+  handleTouchMove(e) {
+    const { touchId } = this.state,
+      { threshold } = this.props;
+
+    if (touchId === null) {
       return;
     }
 
@@ -105,32 +113,38 @@ module.exports = React.createClass({
       return;
     }
 
-    var tch = e.targetTouches[ 0 ];
-    if (this.state.touchId !== tch.identifier) {
+    const touch = e.targetTouches[ 0 ];
+    if (touchId !== touch.identifier) {
       this.clearTouchData();
       return;
     }
 
     // verify that the touch did not move outside the threshold
-    var dist = this.calculateTouchDistanceFromOrigin(tch);
+    const dist = this.calculateTouchDistanceFromOrigin(touch);
     // if it was moved farther than the allowed amount, then we should cancel the touch
-    if (dist > this.props.threshold) {
+    if (dist > threshold) {
       this.clearTouchData();
     }
-  },
+  }
 
-  calculateTouchDistanceFromOrigin: function (touch) {
-    return Math.sqrt(Math.pow(touch.screenX - this.state.touchX, 2) + Math.pow(touch.screenY - this.state.touchY, 2));
-  },
+  calculateTouchDistanceFromOrigin(touch) {
+    const { touchX, touchY } = this.state,
+      { screenX, screenY } = touch;
 
-  handleTouchEnd: function (e) {
-    if (this.state.touchId === null) {
+    return Math.sqrt(Math.pow(screenX - touchX, 2) + Math.pow(screenY - touchY, 2));
+  }
+
+  handleTouchEnd(e) {
+    const { touchId, touchTime } = this.state,
+      { timeThreshold, threshold } = this.props;
+
+    if (touchId === null) {
       return;
     }
 
-    if (this.props.timeThreshold !== null) {
+    if (timeThreshold !== null) {
       // length of press exceeds the amount of time that we are doing anything for
-      if (((new Date()).getTime() - this.state.touchTime > this.props.timeThreshold)) {
+      if (((new Date()).getTime() - touchTime > timeThreshold)) {
         this.clearTouchData();
         return;
       }
@@ -143,29 +157,29 @@ module.exports = React.createClass({
     }
 
     // get the touch from the list of changed touches
-    var tch = null;
-    for (var i = 0; i < e.changedTouches.length; i++) {
+    let touch = null;
+    for (let i = 0; i < e.changedTouches.length; i++) {
       var oneTouch = e.changedTouches[ i ];
       if (oneTouch.identifier === this.state.touchId) {
-        tch = oneTouch;
+        touch = oneTouch;
         break;
       }
     }
 
-    if (tch === null) {
+    if (touch === null) {
       this.clearTouchData();
       return;
     }
 
     // verify that the touch did not move outside the threshold
-    var dist = this.calculateTouchDistanceFromOrigin(tch);
+    const dist = this.calculateTouchDistanceFromOrigin(touch);
     // if it was moved farther than the allowed amount, then we should cancel the touch
-    if (dist > this.props.threshold) {
+    if (dist > threshold) {
       this.clearTouchData();
       return;
     }
 
-    var targetEl = tch.target;
+    const targetEl = touch.target;
 
     // if it's an input where typing is allowed and it's already focused,
     // don't do anything. this is probably an attempt to move the cursor
@@ -179,18 +193,17 @@ module.exports = React.createClass({
     // we don't need this touch end event to be handled multiple times if it's interpreted as a click
     e.stopPropagation();
     // clear the data and then trigger the click
-    this.clearTouchData(function () {
-      this.triggerClick(targetEl);
+    this.clearTouchData(()=> {
+      ReactFastClick.triggerClick(targetEl);
     });
-  },
+  }
 
-  handleTouchCancel: function () {
+  handleTouchCancel() {
     this.clearTouchData();
-  },
+  }
 
-  triggerClick: function (target) {
+  static triggerClick(target) {
     while (target && typeof target.click !== "function") {
-
       target = target.parentNode;
     }
 
@@ -206,14 +219,18 @@ module.exports = React.createClass({
     if ((isInput(target) && !isCheckbox(target)) || isSelect(target) || isTextArea(target)) {
       target.focus();
     }
-  },
-
-  render: function () {
-    return d.span(assign({}, this.props, {
-      onTouchStart: this.handleTouchStart,
-      onTouchMove: this.handleTouchMove,
-      onTouchEnd: this.handleTouchEnd,
-      onTouchCancel: this.handleTouchCancel
-    }), this.props.children);
   }
-});
+
+  render() {
+    const { children } = this.props;
+
+    const touchProps = {
+      onTouchStart: (e) => this.handleTouchStart(e),
+      onTouchMove: (e) => this.handleTouchMove(e),
+      onTouchEnd: (e) => this.handleTouchEnd(e),
+      onTouchCancel: (e) => this.handleTouchCancel(e)
+    };
+
+    return <span {...touchProps}>{children}</span>
+  }
+}
