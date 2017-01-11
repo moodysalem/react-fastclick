@@ -3,8 +3,9 @@
 Wrapper div that implements the FastClick logic in its touch events, triggering appropriate click and focus events on
 its children if it detects a 'tap'.
 
-## Deprecation
-This isn't needed now that iOS and Android have both eliminated the click delay in their native browsers for pages that can't zoom
+## Deprecation (Updated 1/11/2017)
+This isn't needed now that iOS and Android have both eliminated the click delay in their native browsers for pages that can't zoom.
+_CAVEAT:_ it appears iOS 10 has brought back this issue for mobile web apps added to the home screen :(
 
 # Install
 
