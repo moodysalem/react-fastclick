@@ -1,6 +1,5 @@
 language: node_js
 node_js:
-  - "latest"
   - "8.4.0"
 
 before_install:
