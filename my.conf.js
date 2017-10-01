@@ -72,7 +72,7 @@ module.exports = function (config) {
 
     // plugins
     plugins: [
-      require("karma-webpack"),
+      require('karma-webpack'),
       require('karma-mocha'),
       require('karma-chrome-launcher')
     ],
@@ -80,11 +80,11 @@ module.exports = function (config) {
     webpack: {
       externals: {},
       module: {
-        loaders: [
+        rules: [
           {
             test: /\.jsx?$/,
             exclude: /node_modules/,
-            loader: 'babel'
+            use: 'babel-loader'
           }
         ]
       }

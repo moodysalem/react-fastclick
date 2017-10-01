@@ -1,4 +1,5 @@
-import React, { DOM, PropTypes, Component } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 const isFocused = (el) => {
   return document.activeElement === el;
@@ -35,10 +36,10 @@ const isFocusedTextArea = (el) => {
 export default class ReactFastClick extends Component {
   static propTypes = {
     // The number of px that the finger may move before the gesture is no longer considered a tap
-    threshold: React.PropTypes.number,
+    threshold: PropTypes.number,
     // The amount of time in ms that the finger may be down before the gesture is no longer considered a tap by this
     // component
-    timeThreshold: React.PropTypes.number
+    timeThreshold: PropTypes.number
   };
 
   static defaultProps = {
@@ -79,7 +80,7 @@ export default class ReactFastClick extends Component {
    * Handle the touch start event
    * @param e
    */
-  handleTouchStart(e) {
+  handleTouchStart = e => {
     // one+ touches means the user isn't trying to tap this element
     if (e.touches.length !== 1 || e.targetTouches.length !== 1) {
       this.clearTouchData();
@@ -94,13 +95,13 @@ export default class ReactFastClick extends Component {
       touchY: tch.screenY,
       touchTime: (new Date()).getTime()
     });
-  }
+  };
 
   /**
    * Handle the touch move event
    * @param e
    */
-  handleTouchMove(e) {
+  handleTouchMove = e => {
     const { touchId } = this.state,
       { threshold } = this.props;
 
@@ -125,7 +126,7 @@ export default class ReactFastClick extends Component {
     if (dist > threshold) {
       this.clearTouchData();
     }
-  }
+  };
 
   calculateTouchDistanceFromOrigin(touch) {
     const { touchX, touchY } = this.state,
@@ -134,7 +135,7 @@ export default class ReactFastClick extends Component {
     return Math.sqrt(Math.pow(screenX - touchX, 2) + Math.pow(screenY - touchY, 2));
   }
 
-  handleTouchEnd(e) {
+  handleTouchEnd = e => {
     const { touchId, touchTime } = this.state,
       { timeThreshold, threshold } = this.props;
 
@@ -159,7 +160,7 @@ export default class ReactFastClick extends Component {
     // get the touch from the list of changed touches
     let touch = null;
     for (let i = 0; i < e.changedTouches.length; i++) {
-      var oneTouch = e.changedTouches[ i ];
+      const oneTouch = e.changedTouches[ i ];
       if (oneTouch.identifier === this.state.touchId) {
         touch = oneTouch;
         break;
@@ -193,17 +194,17 @@ export default class ReactFastClick extends Component {
     // we don't need this touch end event to be handled multiple times if it's interpreted as a click
     e.stopPropagation();
     // clear the data and then trigger the click
-    this.clearTouchData(()=> {
+    this.clearTouchData(() => {
       ReactFastClick.triggerClick(targetEl);
     });
-  }
+  };
 
-  handleTouchCancel() {
+  handleTouchCancel = e => {
     this.clearTouchData();
-  }
+  };
 
   static triggerClick(target) {
-    while (target && typeof target.click !== "function") {
+    while (target && typeof target.click !== 'function') {
       target = target.parentNode;
     }
 
@@ -225,12 +226,12 @@ export default class ReactFastClick extends Component {
     const { children } = this.props;
 
     const touchProps = {
-      onTouchStart: (e) => this.handleTouchStart(e),
-      onTouchMove: (e) => this.handleTouchMove(e),
-      onTouchEnd: (e) => this.handleTouchEnd(e),
-      onTouchCancel: (e) => this.handleTouchCancel(e)
+      onTouchStart: this.handleTouchStart,
+      onTouchMove: this.handleTouchMove,
+      onTouchEnd: this.handleTouchEnd,
+      onTouchCancel: this.handleTouchCancel
     };
 
-    return <span {...touchProps}>{children}</span>
+    return <span {...touchProps}>{children}</span>;
   }
 }

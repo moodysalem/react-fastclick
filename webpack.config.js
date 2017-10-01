@@ -1,10 +1,10 @@
-const webpack = require('webpack');
+const path = require('path');
 
 module.exports = {
   entry: "./index.jsx",
 
   output: {
-    path: "./dist",
+    path: path.resolve(__dirname, "./dist"),
     filename: "react-fastclick-alt.js",
     library: "ReactFastClick",
     libraryTarget: "umd"
@@ -15,11 +15,11 @@ module.exports = {
   },
 
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.jsx?$/,
         exclude: /node_modules/,
-        loader: 'babel'
+        use: 'babel-loader'
       }
     ]
   }

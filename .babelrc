@@ -1,27 +1,10 @@
 {
   "presets": [
-    "stage-1",
-    "es2015",
+    "env",
     "react"
   ],
   "plugins": [
-    "transform-decorators-legacy",
     "transform-strict-mode",
     "transform-class-properties"
-  ],
-  "env": {
-    "node": {
-      "plugins": [
-        [
-          "babel-plugin-transform-require-ignore",
-          {
-            "extensions": [
-              ".css",
-              ".scss"
-            ]
-          }
-        ]
-      ]
-    }
-  }
+  ]
 }

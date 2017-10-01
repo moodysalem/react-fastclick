@@ -1,7 +1,7 @@
-import React, { DOM, PropTypes, Component } from 'react';
+import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import FastClick from './index.jsx';
-import ReactTestUtils from 'react-addons-test-utils';
+import ReactTestUtils from 'react-dom/test-utils';
 import $ from 'jquery';
 import assert from 'assert';
 
@@ -29,10 +29,10 @@ class ChangeOnClick extends Component {
 describe('react-fastclick-alt', function () {
   var test, showClicked, sc;
   beforeEach(function () {
-    $("body").html($("<div>").attr("id", "test"));
-    test = $("#test").get(0);
+    $('body').html($('<div>').attr('id', 'test'));
+    test = $('#test').get(0);
     ReactDOM.render(<ChangeOnClick/>, test);
-    showClicked = $("#showclicked");
+    showClicked = $('#showclicked');
     sc = showClicked.get(0);
   });
 
