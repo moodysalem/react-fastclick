@@ -7,6 +7,9 @@
     "dist/react-fastclick-alt.js",
     "index.jsx"
   ],
+  "engines": {
+    "npm": ">5.0.0"
+  },
   "scripts": {
     "pretest": "npm run build",
     "test": "karma start my.conf.js --single-run",
