@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import FastClick from './index.jsx';
 import ReactTestUtils from 'react-dom/test-utils';
-import $ from 'jquery';
 import assert from 'assert';
 
 const { Simulate } = ReactTestUtils;
@@ -29,15 +28,15 @@ class ChangeOnClick extends Component {
 describe('react-fastclick-alt', function () {
   var test, showClicked, sc;
   beforeEach(function () {
-    $('body').html($('<div>').attr('id', 'test'));
-    test = $('#test').get(0);
+    document.body.innerHTML = '<div id="test"></div>';
+    test = document.getElementById('test');
     ReactDOM.render(<ChangeOnClick/>, test);
-    showClicked = $('#showclicked');
-    sc = showClicked.get(0);
+    showClicked = document.getElementById('showclicked');
+    sc = showClicked;
   });
 
   var wasClicked = function () {
-    return showClicked.text() === 'clicked';
+    return showClicked.innerText === 'clicked';
   };
 
   it('base case, nothing happens and the element is not clicked', function () {
